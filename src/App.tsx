@@ -45,7 +45,6 @@ export default function App() {
       if (!videoElement) return;
 
       const localStream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
         video: {
           ...windowSize,
         },
