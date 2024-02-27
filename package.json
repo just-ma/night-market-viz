@@ -1,6 +1,5 @@
 {
   "name": "market",
-  "homepage": "https://just-ma.github.io/night-market-viz",
   "private": true,
   "version": "0.0.0",
   "type": "module",
