@@ -17,6 +17,8 @@ precision mediump float;
 uniform sampler2D uTexture;
 uniform sampler2D uTexture2;
 uniform float uT;
+uniform bool uClear;
+uniform float uLumaThreshold;
 
 varying vec2 vUv;
 
@@ -25,7 +27,7 @@ float colorShiftVar(float x) {
 }
 
 vec3 colorShift(vec3 color) {
-  return vec3(colorShiftVar(color.x));
+  return vec3(0, 0, colorShiftVar(color.x));
 }
 
 void main() {  
@@ -37,8 +39,14 @@ void main() {
   vec3 color2 = texture2D(uTexture2, uv2).xyz;
 
   float ratio = 0.005;
-  float drive = 1.5;
-  vec4 color = vec4((color1 * (ratio * drive) + color2 * (1. - ratio)), 1);
+  float drive = 1.3 + uLumaThreshold;
+  vec4 color;
+
+  if (uClear) {
+    color = vec4(color1 * 0.9, 1);
+  } else {
+    color = vec4((color1 * (ratio * drive) + color2 * (1. - ratio)), 1);
+  }
 
   // final paint
   if (color.x <= .9 && color.y <= .9 && color.z <= .9) {

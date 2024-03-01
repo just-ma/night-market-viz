@@ -4,6 +4,7 @@ import { useFrame } from "@react-three/fiber";
 import { OrthographicCamera, useFBO, useVideoTexture } from "@react-three/drei";
 import { fragmentShader, vertexShader } from "./shaders";
 import VisualizerText from "./VisualizerText";
+import useKeyboardListener from "./useKeyboardListener";
 
 type ComponentProps = {
   video: MediaStream;
@@ -17,6 +18,9 @@ const Visualizer = ({ video }: ComponentProps) => {
   const renderTargetA = useFBO();
   const renderTargetB = useFBO();
 
+  const { text, font, rotX, rotY, clear, lumaThreshold } =
+    useKeyboardListener();
+
   const uniforms = useMemo(() => {
     return {
       uTexture: {
@@ -28,6 +32,12 @@ const Visualizer = ({ video }: ComponentProps) => {
       uT: {
         value: performance.now() / 1000,
       },
+      uClear: {
+        value: clear.current,
+      },
+      uLumaThreshold: {
+        value: lumaThreshold.current,
+      },
     };
   }, []);
 
@@ -38,6 +48,8 @@ const Visualizer = ({ video }: ComponentProps) => {
 
     materialRef.current.uniforms.uTexture.value = texture;
     materialRef.current.uniforms.uT.value = performance.now() / 1000;
+    materialRef.current.uniforms.uClear.value = clear.current;
+    materialRef.current.uniforms.uLumaThreshold.value = lumaThreshold.current;
 
     const { gl, scene, camera } = state;
     const currRenderTarget = isRenderTargetA.current
@@ -56,7 +68,9 @@ const Visualizer = ({ video }: ComponentProps) => {
   return (
     <>
       <OrthographicCamera makeDefault position={[0, 0, 2000]} />
-      {window.innerWidth > 800 && <VisualizerText />}
+      {window.innerWidth > 800 && (
+        <VisualizerText text={text} font={font} rotX={rotX} rotY={rotY} />
+      )}
       <mesh>
         <planeGeometry args={[window.innerWidth, window.innerHeight, 1, 1]} />
         <shaderMaterial
