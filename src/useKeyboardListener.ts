@@ -33,6 +33,8 @@ export default function useKeyboardListener() {
 
   const [text, setText] = useState("type, why \ndon't \nya?");
   const [fontIndex, setFontIndex] = useState(0);
+  const [color, setColor] = useState("white");
+  const [textColor, setTextColor] = useState("blue");
 
   const incrementFontIndex = () => {
     setFontIndex(
@@ -56,6 +58,46 @@ export default function useKeyboardListener() {
 
   const handleKeyDown = (e: KeyboardEvent) => {
     switch (e.key) {
+      case "1": {
+        setColor("white");
+        break;
+      }
+      case "2": {
+        setColor("blue");
+        break;
+      }
+      case "3": {
+        setColor("green");
+        break;
+      }
+      case "4": {
+        setColor("red");
+        break;
+      }
+      case "5": {
+        setColor("purple");
+        break;
+      }
+      case "6": {
+        setColor("yellow");
+        break;
+      }
+      case "7": {
+        setTextColor("black");
+        break;
+      }
+      case "8": {
+        setTextColor("white");
+        break;
+      }
+      case "9": {
+        setTextColor("blue");
+        break;
+      }
+      case "0": {
+        setTextColor("red");
+        break;
+      }
       case " ": {
         clear.current = true;
         break;
@@ -66,11 +108,11 @@ export default function useKeyboardListener() {
         break;
       }
       case "+": {
-        lumaThreshold.current = Math.min(lumaThreshold.current + 0.03, 0.5);
+        lumaThreshold.current = Math.min(lumaThreshold.current + 0.03, 0.7);
         break;
       }
       case "-": {
-        lumaThreshold.current = Math.max(lumaThreshold.current - 0.03, -0.5);
+        lumaThreshold.current = Math.max(lumaThreshold.current - 0.03, -0.7);
         break;
       }
       case "ArrowLeft": {
@@ -137,7 +179,9 @@ export default function useKeyboardListener() {
       rotY,
       clear,
       lumaThreshold,
+      color,
+      textColor,
     }),
-    [text, fontIndex]
+    [text, fontIndex, color, textColor]
   );
 }

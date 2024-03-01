@@ -7,6 +7,7 @@ type ComponentProps = {
   font: string;
   rotY: React.MutableRefObject<number>;
   rotX: React.MutableRefObject<number>;
+  color: string;
 };
 
 export default function VisualizerText({
@@ -14,6 +15,7 @@ export default function VisualizerText({
   font,
   rotX,
   rotY,
+  color,
 }: ComponentProps) {
   const [rot, setRot] = useState([0.1, 0.1, 0]);
 
@@ -45,7 +47,7 @@ export default function VisualizerText({
     <Text
       position={[0, 0, 1000]}
       scale={(0.8 * window.innerWidth) / Math.pow(text.length, 0.6)}
-      color="white"
+      color={color}
       textAlign="center"
       font={font}
       lineHeight={1}

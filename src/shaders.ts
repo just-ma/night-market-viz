@@ -19,6 +19,7 @@ uniform sampler2D uTexture2;
 uniform float uT;
 uniform bool uClear;
 uniform float uLumaThreshold;
+uniform vec3 uColor;
 
 varying vec2 vUv;
 
@@ -27,7 +28,7 @@ float colorShiftVar(float x) {
 }
 
 vec3 colorShift(vec3 color) {
-  return vec3(0, 0, colorShiftVar(color.x));
+  return uColor * colorShiftVar(color.x);
 }
 
 void main() {  
